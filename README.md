@@ -17,12 +17,11 @@ should not be used in production or on the internet at all
 
 
 ## installation
-for an adhoc run:
 ```
 git clone https://github.com/bgeschka/monitorer.git
 cd monitorer
 npm install
-node main
+sudo ./install.sh
 ```
 
 
