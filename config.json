@@ -1,5 +1,5 @@
 {
-       	"loglevel" : "silly",
+       	"loglevel" : "debug",
        	"systemname" : "MONITORER",
        	"logfile" : "/tmp/monitorer-log.log",
 	"datadir" : "/tmp/monitorer",

@@ -21,4 +21,6 @@ const bodyParser = require('body-parser');
 
 	app.use(express.static(__dirname + config.frontenddir));
 	app.listen(config.listenport,config.listenip);
+
+	Log.info("listening for connections from:", config.listenip, "on port:", config.listenport);
 })();
