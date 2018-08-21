@@ -3,6 +3,11 @@ DEFAULTDATADIR="/var/monitorer"
 DEFAULTLISTENIP="0.0.0.0"
 DEFAULTLISTENPORT="8000"
 
+err() {
+	echo "Error:$*"
+	exit 1
+}
+
 if [ "$UID" != '0' ]; then
 	echo "this has to run as root"
 	echo "try again with sudo $0"
@@ -36,8 +41,8 @@ systemctl stop monitorer.service 2>/dev/null
 
 systemdinstallpath="/etc/systemd/system/monitorer.service"
 mpath="$(dirname "$(realpath ./main.js)" )"
-sed 's#{{mainpath}}#'"$mpath"'#g' systemd.service > $systemdinstallpath
-systemctl daemon-reload
+sed 's#{{mainpath}}#'"$mpath"'#g' systemd.service > $systemdinstallpath || err 'failed to prepare systemd.service'
+systemctl daemon-reload || err 'faild to reload systemd'
 echo "installed $systemdinstallpath"
 
 
@@ -52,13 +57,14 @@ printf "which Port? (default $DEFAULTLISTENPORT):"
 read listenport
 
 printf "Where do you want to store the data(default $DEFAULTDATADIR ):"
-read p
-mkdir -p "${path:-$DEFAULTDATADIR}"
+read path
+mkdir -p "${path:-$DEFAULTDATADIR}" || err "failed to create data dir $path"
 
-sed 's#\/tmp#'"${path:-$DEFAULTDATADIR}"'#g' example.config.json > config.json
-sed -i 's#0.0.0.0#'"${listenip:-$DEFAULTLISTENIP}"'#g' config.json
-sed -i 's#8000#'"${listenport:-$DEFAULTLISTENPORT}"'#g' config.json
+sed 's#\/tmp#'"${path:-$DEFAULTDATADIR}"'#g' example.config.json > config.json || err 'failed to prepare config'
+sed -i 's#0.0.0.0#'"${listenip:-$DEFAULTLISTENIP}"'#g' config.json || err 'failed to prepare config' 
+sed -i 's#8000#'"${listenport:-$DEFAULTLISTENPORT}"'#g' config.json || err 'failed to prepare config' 
 
+npm install || err 'missing npm install node and npm'
 
 printf 'Start monitorer now?(y)'
 read sn
