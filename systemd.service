@@ -1,0 +1,13 @@
+#simple systemd example
+#/etc/systemd/system/monitorer.service:
+[Unit]
+	After=network.target
+[Service]
+	User=root
+	StandardOutput=journal
+	RemainAfterExit=true
+	WorkingDirectory={{mainpath}}
+	ExecStart=/usr/bin/node main
+[Install]
+	WantedBy=default.target
+
