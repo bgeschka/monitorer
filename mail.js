@@ -21,8 +21,8 @@ module.exports = (subj, message) => {
 	var transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: usercfg.email_smtp_user, //'begeschka@gmail.com',
-			pass: usercfg.email_smtp_pass //'+9V0EFD7Zz+IJKTG4qJZZQTYnHwT96ttOTx4CDIyLiveru6hxVv5XbqErMZMfhXR'
+			user: usercfg.email_smtp_user,
+			pass: usercfg.email_smtp_pass
 		}
 	});
 
@@ -30,13 +30,8 @@ module.exports = (subj, message) => {
 	Log.silly("sending message as:", sender);
 
 	var mailOptions = {
-		//’“Sender Name” sender@server.com‘,
-		//from: usercfg.smtp_user, //'sender@email.com', // sender address
 		from : sender,
-
-		to: usercfg.email_target, //'to@email.com', // list of receivers
-		//subject: 'Subject of your email', // Subject line
-		//html: '<p>Your html here</p>' // plain text body
+		to: usercfg.email_target,
 	};
 
 	return new Promise((resolve, reject) => {
