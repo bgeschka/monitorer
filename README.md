@@ -16,7 +16,7 @@
 ## installation
 for an adhoc run:
 ```
-git clone https://github.com/bbdgl/monitorer.git
+git clone https://github.com/bgeschka/monitorer.git
 cd monitorer
 npm install
 node main
