@@ -37,23 +37,16 @@ node main
 
 ## adding plugins
 
-One can simply add a file to the plugins/ folder, with the boilerplate below.
+One can simply add a plugin to the plugins/ folder, with the boilerplate below.
+The name of the file determines the plugins name
 After that, args is exposed to UI and can be edited
 
 ```javascript
 module.exports.command = "ping -c {count} {host}"; //a template for the command to run
 module.exports.args = ["count", "host"]; //list of arguments visible in UI for editing
 
-//optional parse function, if needed
-module.exports.parse = function (resultstring) {
-        var parts = resultstring.split(" ");
-        var timepart = parts.filter( p => p.match(/time=/))[0];
-        return timepart.split('=')[1];
-};
-
-//function detecting if the result is bad
-module.exports.bad = function (parsedresult) {
-        return (parsedresult > 200);
+module.exports.bad = function (result) {
+        return result.match(/error/);
 };
 
 //configuration of display
