@@ -1,0 +1,15 @@
+{
+       	"loglevel" : "silly",
+       	"systemname" : "MONITORER",
+       	"logfile" : "/tmp/monitorer-log.log",
+	"datadir" : "/tmp/monitorer",
+	"jobsdir": "/tmp/monitorer/jobs",
+	"configpath" : "/tmp/monitorer/config.json",
+	"plugindir" : "./plugins",
+	"frontenddir" : "/frontend",
+	"listenip" : "0.0.0.0",
+	"listenport" : "8000",
+	"JobManagerLoopInterval" : 500
+}
+
+

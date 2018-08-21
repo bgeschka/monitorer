@@ -1,0 +1,39 @@
+<div>
+	<panel txt="{{job.name}} {{job.pluginname}}">
+		<div ng-if="waiting">
+			<center>
+				<div spinner></div>
+			</center>
+		</div>
+
+		<div ng-if="!waiting">
+			<div ng-if="lastresult.result === 'BAD'">
+				<center>
+					<br></br>
+					<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:5em"></span>
+					<br></br>
+				</center>
+			</div>
+			<div ng-if="lastresult.result !== 'BAD'">
+
+				<div ng-if="plugins.plugins[job.pluginname].view.module === 'gauge'">
+					<div gauge gmin="plugins.plugins[job.pluginname].view.min" gmax="plugins.plugins[job.pluginname].view.max" gbad="plugins.plugins[job.pluginname].view.bad" gdata="lastresult.result"></div>
+				</div>
+
+				<div ng-show="plugins.plugins[job.pluginname].view.module === 'ok'">
+					<center>
+						<br></br>
+						<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;font-size:5em"></span>
+						<br></br>
+					</center>
+				</div>
+
+				<div ng-show="plugins.plugins[job.pluginname].view.module === 'text'" >
+					{{lastresult.result}}
+				</div>
+			</div>
+
+		</div>
+		<!--pre>{{lastresult.result | limitTo : 50}}</pre-->
+	</panel>
+</div>

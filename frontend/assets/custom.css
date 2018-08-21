@@ -1,0 +1,15 @@
+.form-control.ng-touched.ng-invalid {
+    border:1px solid red;
+}
+
+.form-control.ng-invalid {
+    border:1px solid red;
+}
+
+.link {
+	cursor:pointer;
+}
+
+.dashboardcard {
+	max-height:250px;
+}

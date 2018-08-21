@@ -1,0 +1,26 @@
+<div>
+
+	<h3>Login</h3>
+
+	<br/>
+
+	<form ng-submit="login()" > 
+		<labledrow txt="Username" ng-hide="hideusername">
+			<input class="form-control" type="text" ng-model="creds.username" autofocus> </input>
+		</labledrow>
+
+		<labledrow txt="Password">
+			<input class="form-control" type="password" ng-model="creds.password" autofocus> </input>
+		</labledrow>
+
+		<div class="form-group row">
+			<div class="col-sm-12 col-xs-12">
+				<input ng-disabled="!creds.password || !creds.username" type="submit" value="Login" class="btn btn-primary pull-right"></input>
+			</div>
+		</div>
+
+
+		<pre ng-if="config.debug" >{{creds|json}}</pre>
+	</form>
+
+</div>

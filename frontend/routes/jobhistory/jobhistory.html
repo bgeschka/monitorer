@@ -1,0 +1,19 @@
+<div>
+	<h3>{{job.name}} {{job.pluginname}} ({{jobid}})</h3>
+
+	<table class="table table-hover" >
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Output</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr ng-repeat="h in history|orderBy:'$datenice':true" ng-class="{'label-danger':h.data == 'BAD'}" >
+				<td>{{h.$datenice | date:'medium'}}</td>
+				<td class="link" uib-tooltip="show full" ng-click="showfull(h)">{{h.data|limitTo:100}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,23 @@
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width"></meta>
+	<link rel="stylesheet" href="assets/bootstrap.min.css"></link>
+	<link rel="stylesheet" href="assets/custom.css"></link>
+	<script type="text/javascript" src="lib/angular.min.js"></script>
+	<script type="text/javascript" src="lib/angular-route.min.js"></script>
+	<script type="text/javascript" src="lib/ui-bootstrap-tpls.js"></script>
+	<script type="text/javascript" src="lib/Chart.min.js"></script>
+	<script type="text/javascript" src="lib/gauge.min.js"></script>
+	<title>Monitorer</title>
+</head>
+
+<body key-trap>
+	<div class="container">
+                <div class="includefade" ng-include="'routes/menu/menu.html'"></div>
+		<div ng-view id="mainview"></div>
+	</div>
+</body>
+<script type="text/javascript" data-main="main" src="lib/require.min.js"></script>
+
+</html>

@@ -1,0 +1,31 @@
+<div>
+	<h3>Settings</h3>
+
+	<form name="settingsform">
+
+		<labledrow txt="Logkeep time in hours">
+			<input class="form-control" ng-model="config.logkeep" />
+		</labledrow>
+
+		<panel txt="Email Settings">
+			<labledrow txt="Email-alert">
+				<input type="checkbox" class="form-control" ng-model="config.emailalert" />
+			</labledrow>
+			<div ng-show="config.emailalert">
+				<labledrow txt="Target Email Address">
+					<input class="form-control" ng-model="config.email_target" />
+				</labledrow>
+				<labledrow txt="GMail User">
+					<input class="form-control" ng-model="config.email_smtp_user" />
+				</labledrow>
+				<labledrow txt="GMail Pass">
+					<input class="form-control" ng-model="config.email_smtp_pass" />
+				</labledrow>
+			</div>
+		</panel>
+
+		<labledrow>
+			<button class="btn btn-success pull-right" ng-disabled="!settingsform.$dirty" ng-click="save(settingsform)">Save</button>
+		</labledrow>
+	</form>
+</div>
