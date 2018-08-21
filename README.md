@@ -20,7 +20,6 @@ should not be used in production or on the internet at all
 ```
 git clone https://github.com/bgeschka/monitorer.git
 cd monitorer
-npm install
 sudo ./install.sh
 ```
 
