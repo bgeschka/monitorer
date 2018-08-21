@@ -37,7 +37,8 @@ node main
 
 ## adding plugins
 
-One can simply add a file to the plugins/ folder, with the boilerplate below.
+One can simply add a plugin to the plugins/ folder, with the boilerplate below.
+The name of the file determines the plugins name
 After that, args is exposed to UI and can be edited
 
 ```javascript
