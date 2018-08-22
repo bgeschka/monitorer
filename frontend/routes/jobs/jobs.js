@@ -4,7 +4,7 @@ define([
 	'directives/cronsetting/cronsetting'
 ], function(app) {
 	var name = "jobs";
-	app.controller(name, function($scope, api, plugins,transports, session) {
+	app.controller(name, function($scope, api,visuals,plugins,transports, session) {
 		$scope.session=session;
 		$scope.plugins = plugins;
 		$scope.transports = transports;
@@ -39,11 +39,22 @@ define([
 		});
 
 		$scope.run = function(job) {
+			visuals.pushSpinner();
 			api.call({
 				method: 'run',
 				jobID: job.jobID
 			}).then(function(res) {
+				visuals.popSpinner();
 				console.log(res);
+				//visuals.pushModal('result of:' + job.name, res.result);
+
+				visuals.pushModal('result of:' + job.name, "<pre>{{result}}</pre>", "", function () {
+				}, "lg", {
+					result:res.result
+				});
+			}).catch( function (err) {
+				visuals.popSpinner();
+				visuals.pushModal('faild to run:' + job.name, err);
 			});
 		};
 
