@@ -9,6 +9,7 @@ should not be used in production or on the internet at all
 * transport support for
   * local
   * ssh
+  * telnet
 * plugin support for now
   * ping
   * curl
@@ -35,6 +36,8 @@ sudo ./install.sh
 ![Jobs - Portscan](http://files.bgeschka.de/monitorer-screens/2018-08-21-204921_876x629_scrot.png)
 ![Jobs - Ping](http://files.bgeschka.de/monitorer-screens/2018-08-21-204935_880x625_scrot.png)
 ![Settings](http://files.bgeschka.de/monitorer-screens/2018-08-21-205009_886x458_scrot.png)
+![Transport - ssh](http://files.bgeschka.de/monitorer-screens/transport-ssh.png)
+![Transport - telnet](http://files.bgeschka.de/monitorer-screens/transport-telnet.png)
 
 
 ## adding plugins
