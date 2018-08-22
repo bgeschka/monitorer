@@ -9,7 +9,7 @@ should not be used in production or on the internet at all
 * transport support for
   * local
   * ssh
-* plugin support for 4 types of monitoring for now
+* plugin support for now
   * ping
   * curl
   * portcheck
