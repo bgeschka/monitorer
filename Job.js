@@ -165,7 +165,7 @@ class Job{
 		try {
 			result = await this.$transport.exec(this.transportargs, cmd);
 		} catch (e) {
-			Log.error('failed on executing', e);
+			Log.error('failed on executing', e.toString());
 			result = await this.goneBad(result);
 		}
 		var _result = result;

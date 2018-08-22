@@ -14,6 +14,7 @@
     "express": "^4.16.3",
     "nodemailer": "^4.6.8",
     "rimraf": "^2.6.2",
+    "ssh2-promise": "0.0.9",
     "winston": "^3.0.0"
   }
 }
