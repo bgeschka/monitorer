@@ -3,7 +3,7 @@
 ## This is a __work-in-progress__ monitoring application written in node
 
 Please note that there is no authentication mechanism at all at the moment and this
-should not be used in production or on the internet at all
+should not be used in production or on the internet at all. If you really want to, use htpasswd protection
 
 ## Features
 * transport support for
