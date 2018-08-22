@@ -37,7 +37,7 @@ sudo ./install.sh
 ![Jobs - Ping](http://files.bgeschka.de/monitorer-screens/2018-08-21-204935_880x625_scrot.png)
 ![Settings](http://files.bgeschka.de/monitorer-screens/2018-08-21-205009_886x458_scrot.png)
 ![Transport - ssh](http://files.bgeschka.de/monitorer-screens/transport-ssh.png)
-![Transport - telnet](http://files.bgeschka.de/monitorer-screens/transport-telnet.png)
+![Transport - telnet](http://files.bgeschka.de/monitorer-screens/transport-telet.png)
 
 
 ## adding plugins
