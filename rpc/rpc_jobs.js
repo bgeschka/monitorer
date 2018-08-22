@@ -23,13 +23,6 @@ module.exports = async (jm,req,res) => {
 			job.save();
 			jsonresponseDone(res);
 			break;
-		case 'addjob':
-			var n = new Job();
-			n.create(req.body.data);
-			await n.save();
-			await jm.addJob(n.getjobID());
-			jsonresponse(res, n.toJsonString() );
-			break;
 		case 'lastresult':
 			var job = jm.getJobByID(req.body.jobID);
 			var lr = job.getLastResult();
@@ -37,6 +30,14 @@ module.exports = async (jm,req,res) => {
 			jsonresponse(res, {
 				result: lr
 			});
+			break;
+
+		case 'addjob':
+			var n = new Job();
+			n.create(req.body.data);
+			await n.save();
+			await jm.addJob(n.getjobID());
+			jsonresponse(res, n.toJson() );
 			break;
 
 		case 'getjob':
