@@ -13,7 +13,6 @@ const Log = require('./Log')('Job');
 const config = require("./config");
 const Schedule = require('./schedule');
 const JOBIDLEN = 24;
-const exec = require('./exec');
 const extend = require('./extend');
 const rimraf = require('rimraf');
 const promise_io = require('./promise_io');
@@ -54,6 +53,12 @@ function cleandir(dir, olderthanhours) {
 
 
 class Job{
+	constructor(){
+		Log.silly("create Job object");
+		this.$lastresult = "__WAITING__";
+		this.transportname = 'local';
+	}
+
 	clean(){
 		Log.silly('performing clean on:', this.getHistoryPath());
 		var usercfg = userconfig.get();
@@ -64,15 +69,16 @@ class Job{
 		this.$lastresult = "__WAITING__";
 	}
 
-	constructor(){
-		Log.silly("create Job object");
-		this.$lastresult = "__WAITING__";
-	}
-
 	loadPlugin() {
-		var pp = config.plugindir + '/' + this.pluginname;
+		var pp = './plugins/' + this.pluginname;
 		Log.silly("load plugin:", pp);
 		this.$plugin = require(pp);
+	}
+
+	loadTransport(){
+		var pp = './transports/' + this.transportname;
+		Log.silly("load transport:", pp);
+		this.$transport = require(pp);
 	}
 
 	loadSched() {
@@ -151,21 +157,13 @@ class Job{
 		}
 	}
 
-	async run(){
-		if(!this.active) {
-			Log.silly("inactive", this.getjobID());
-			return;
-		}
-
-		if(!this.$sched.check()) {
-			return;
-		}
-
+	async runReal(){
+		this.loadTransport();
 		var cmd = this.compileCommand();
 		Log.silly("run:", cmd);
 		var result = '';
 		try {
-			result = await exec(cmd);
+			result = await this.$transport.exec(this.transportargs, cmd);
 		} catch (e) {
 			Log.error('failed on executing', e);
 			result = await this.goneBad(result);
@@ -195,6 +193,19 @@ class Job{
 
 		this.$lastresult = result;
 		this.archiveResult(result);
+	}
+
+	async run(){
+		if(!this.active) {
+			Log.silly("inactive", this.getjobID());
+			return;
+		}
+
+		if(!this.$sched.check()) {
+			return;
+		}
+
+		await this.runReal();
 	}
 
 	getFileName(){

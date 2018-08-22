@@ -10,6 +10,7 @@ define([
 	'api/config',
 	'api/visuals',
 	'api/plugins',
+	'api/transports',
 	'directives/labledrow/labledrow'
 ], function() {
 	return angular.bootstrap(document.getElementsByTagName("body")[0], ['MONITORER']);

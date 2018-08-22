@@ -4,14 +4,17 @@ define([
 	'directives/cronsetting/cronsetting'
 ], function(app) {
 	var name = "jobs";
-	app.controller(name, function($scope, api, plugins,session) {
+	app.controller(name, function($scope, api, plugins,transports, session) {
 		$scope.session=session;
-		$scope.searchtext="";
 		$scope.plugins = plugins;
+		$scope.transports = transports;
+
+		$scope.searchtext="";
 		$scope.defaultjob = {
 			$new: true,
 			$edit: true,
 			pluginname : 'ping',
+			transportname : 'local',
 			sched: '0 * * * * *',
 			active: true
 		};
@@ -35,6 +38,14 @@ define([
 			angular.extend($scope.jobs, jobs);
 		});
 
+		$scope.run = function(job) {
+			api.call({
+				method: 'run',
+				jobID: job.jobID
+			}).then(function(res) {
+				console.log(res);
+			});
+		};
 
 		$scope.save = function(job, frm) {
 			var m = job.$new ? 'addjob' : 'updatejob';

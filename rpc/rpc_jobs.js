@@ -46,6 +46,14 @@ module.exports = async (jm,req,res) => {
 			});
 			break;
 
+		case 'run':
+			var job = jm.getJobByID(req.body.jobID);
+			await job.runReal();
+			jsonresponse(res, {
+				result: job.getLastResult()
+			});
+			break;
+
 		case 'jobhistory':
 			var job = jm.getJobByID(req.body.jobID);
 			var hist = await job.getHistory();

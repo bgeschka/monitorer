@@ -20,6 +20,7 @@
 				<td>
 					<span ng-show="j.active"  uib-tooltip="is running" class="glyphicon glyphicon-play" aria-hidden="true"></span>
 					<span ng-show="!j.active" uib-tooltip="is not running" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-repeat" aria-hidden="true" uib-tooltip="force run now" ng-click="$event.stopPropagation();run(j)"></span>
 				</td>
 				<td>{{j.pluginname}}</td>
 				<td>{{j.name}}</td>
