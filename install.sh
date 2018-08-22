@@ -42,20 +42,30 @@ systemctl stop monitorer.service 2>/dev/null
 systemdinstallpath="/etc/systemd/system/monitorer.service"
 mpath="$(dirname "$(realpath ./main.js)" )"
 sed 's#{{mainpath}}#'"$mpath"'#g' systemd.service > $systemdinstallpath || err 'failed to prepare systemd.service'
+
+sed -i 's/root/'"$USER"'/g' $systemdinstallpath
+printf "Which user do you want to run monitorer as?(default $USER):"
+read runuser
+
+[ -n "$runuser" ] && sed -i 's/'"$USER"'/'"$runuser"'/g' $systemdinstallpath
+
+
+
 systemctl daemon-reload || err 'faild to reload systemd'
 echo "installed $systemdinstallpath"
 
 
-cat<<EOF
-Monitorer has to store data like previous results,
-job configurations, mail settings etc
-EOF
 
 printf "Where do you want monitorer to listen on? (default $DEFAULTLISTENIP):"
 read listenip
 printf "which Port? (default $DEFAULTLISTENPORT):"
 read listenport
 
+cat<<EOF
+
+Monitorer has to store data like previous results,
+job configurations, mail settings etc
+EOF
 printf "Where do you want to store the data(default $DEFAULTDATADIR ):"
 read path
 mkdir -p "${path:-$DEFAULTDATADIR}" || err "failed to create data dir $path"
@@ -73,6 +83,8 @@ read sn
 printf 'Enable monitorer on system startup?(y)'
 read onboot
 [ "$onboot" == "y" ] && systemctl enable monitorer.service
+
+chmod -R a+rw "$path"
 
 cat<<EOF
      _                  _ 

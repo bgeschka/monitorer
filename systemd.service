@@ -1,5 +1,3 @@
-#simple systemd example
-#/etc/systemd/system/monitorer.service:
 [Unit]
 	After=network.target
 [Service]
