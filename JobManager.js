@@ -18,9 +18,12 @@ class JobManager {
 	}
 
 	getJobByID(jobID) {
-		return this.jobs.filter( j => {
+		var ret = this.jobs.filter( j => {
 			return (j.jobID === jobID);
 		})[0];
+		if (!ret) Log.error("could not get job with id:",jobID);
+
+		return ret;
 	}
 	removeJobByID(jobID) {
 		this.jobs = this.jobs.filter( j => {

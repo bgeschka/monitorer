@@ -11,6 +11,7 @@ module.exports = async (jm,req,res) => {
 		case 'deletejob':
 			var data = req.body.data;
 			var job = jm.getJobByID(data.jobID);
+			if(!job) return;
 			jm.removeJobByID(job.getjobID());
 			job.remove();
 			jsonresponseDone(res);
@@ -18,6 +19,7 @@ module.exports = async (jm,req,res) => {
 		case 'updatejob':
 			var data = req.body.data;
 			var job = jm.getJobByID(data.jobID);
+			if(!job) return;
 			extend(job, data);
 			job.resetLastResult();
 			job.save();
@@ -25,6 +27,7 @@ module.exports = async (jm,req,res) => {
 			break;
 		case 'lastresult':
 			var job = jm.getJobByID(req.body.jobID);
+			if(!job) return;
 			var lr = job.getLastResult();
 
 			jsonresponse(res, {
@@ -42,6 +45,7 @@ module.exports = async (jm,req,res) => {
 
 		case 'getjob':
 			var job = jm.getJobByID(req.body.jobID);
+			if(!job) return;
 			jsonresponse(res, {
 				result: job.toJson()
 			});
@@ -49,6 +53,7 @@ module.exports = async (jm,req,res) => {
 
 		case 'run':
 			var job = jm.getJobByID(req.body.jobID);
+			if(!job) return;
 			await job.runReal();
 			jsonresponse(res, {
 				result: job.getLastResult()
@@ -57,6 +62,7 @@ module.exports = async (jm,req,res) => {
 
 		case 'jobhistory':
 			var job = jm.getJobByID(req.body.jobID);
+			if(!job) return;
 			var hist = await job.getHistory();
 
 			jsonresponse(res, {
