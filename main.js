@@ -2,7 +2,7 @@ const Log = require('./Log')('Main');
 const config = require("./config");
 const JobManager = require('./JobManager');
 const express = require('express');
-const Router = require('./routes/Router');
+const rpc = require('./rpc/rpc');
 const bodyParser = require('body-parser');
 
 (async () => {
@@ -17,7 +17,7 @@ const bodyParser = require('body-parser');
 	app.use(bodyParser());
 	/*static hosting files*/
 
-        Router(app,jm);
+        rpc(app,jm);
 
 	app.use(express.static(__dirname + config.frontenddir));
 	app.listen(config.listenport,config.listenip);
