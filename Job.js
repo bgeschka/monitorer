@@ -31,6 +31,8 @@ function lsdir(dir) {
 
 function cleandir(dir, olderthanhours) {
 	fs.readdir(dir, function(err, files) {
+		if(err) return;
+
 		files.forEach(function(file) {
 			fs.stat(path.join(dir, file), function(err, stat) {
 				var endTime, now;
