@@ -19,7 +19,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat-start="j in jobs | filter:session.searchtext" ng-click="j.$edit = !j.$edit" class="link" >
+			<tr ng-repeat-start="j in jobs | orderBy:'-name' | filter:session.searchtext" ng-click="j.$edit = !j.$edit" class="link" >
 				<td>
 					<span ng-show="j.active"  uib-tooltip="is running" class="glyphicon glyphicon-play" aria-hidden="true"></span>
 					<span ng-show="!j.active" uib-tooltip="is not running" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
