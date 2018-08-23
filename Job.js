@@ -169,7 +169,7 @@ class Job{
 			Log.silly("bad already mailed");
 		}
 
-		return E_BAD;
+		return E_BAD + '\n' + result;
 	}
 
 	async goneGood(result) {
@@ -189,7 +189,7 @@ class Job{
 			result = await this.$transport.exec(this.transportargs, cmd);
 		} catch (e) {
 			Log.error('failed on executing', e.toString());
-			result = await this.goneBad(result);
+			result = await this.goneBad(e.toString());
 		}
 		var _result = result;
 
@@ -212,7 +212,7 @@ class Job{
 			result = await this.goneBad(_result);
 		}
 
-		if (result != E_BAD) await this.goneGood(result);
+		if (!result.match(E_BAD)) await this.goneGood(result);
 
 		this.$lastresult = result;
 		this.archiveResult(result);

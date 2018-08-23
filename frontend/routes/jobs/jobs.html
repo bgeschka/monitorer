@@ -11,7 +11,8 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th>type</th>
+				<th>plugin</th>
+				<th>transport</th>
 				<th>name</th>
 			</tr>
 		</thead>
@@ -23,6 +24,7 @@
 					<span class="glyphicon glyphicon-repeat" aria-hidden="true" uib-tooltip="force run now" ng-click="$event.stopPropagation();run(j)"></span>
 				</td>
 				<td>{{j.pluginname}}</td>
+				<td>{{j.transportname}}</td>
 				<td>{{j.name}}</td>
 			</tr>
 

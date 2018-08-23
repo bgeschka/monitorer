@@ -7,14 +7,14 @@
 		</div>
 
 		<div ng-if="!waiting">
-			<div ng-if="lastresult.result === 'BAD'">
+			<div ng-if="lastresult.result.match('BAD')">
 				<center>
 					<br></br>
 					<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:5em"></span>
 					<br></br>
 				</center>
 			</div>
-			<div ng-if="lastresult.result !== 'BAD'">
+			<div ng-if="!lastresult.result.match('BAD')">
 
 				<div ng-if="plugins.plugins[job.pluginname].view.module === 'gauge'">
 					<div gauge gmin="plugins.plugins[job.pluginname].view.min" gmax="plugins.plugins[job.pluginname].view.max" gbad="plugins.plugins[job.pluginname].view.bad" gdata="lastresult.result"></div>
