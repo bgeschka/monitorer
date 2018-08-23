@@ -31,13 +31,23 @@ define([
 					resolve(res.data);
 				}).catch(reject);
 			});
-			
+
 		};
 
 		this.call = function (args) {
 			return this._call(args);
 		};
 
+		this.rand = function(len){
+			len = len || 5;
+			var text = "";
+			var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+			for (var i = 0; i < len; i++)
+				text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+			return text;
+		};
 
 		return this;
 	});

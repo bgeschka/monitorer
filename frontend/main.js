@@ -32,7 +32,8 @@ define([
 	'api/visuals',
 	'api/plugins',
 	'api/transports',
-	'directives/labledrow/labledrow'
+	'directives/labledrow/labledrow',
+	'directives/keytrap/keytrap'
 ], function() {
 	return angular.bootstrap(document.getElementsByTagName("body")[0], ['MONITORER']);
 });

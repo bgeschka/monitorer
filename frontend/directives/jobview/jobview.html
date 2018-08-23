@@ -1,5 +1,6 @@
-<div>
-	<panel txt="{{job.name}} {{job.pluginname}}">
+<div class="panel panel-default" style="min-height:30%;max-height:35%;overflow-y:hidden">
+	<div class="panel-heading">{{job.name}} {{job.pluginname}}</div>
+	<div class="panel-body">
 		<div ng-if="waiting">
 			<center>
 				<div spinner></div>
@@ -7,14 +8,15 @@
 		</div>
 
 		<div ng-if="!waiting">
-			<div ng-if="lastresult.result.match('BAD')">
+			<div ng-if="bad">
 				<center>
 					<br></br>
 					<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:5em"></span>
 					<br></br>
 				</center>
 			</div>
-			<div ng-if="!lastresult.result.match('BAD')">
+			<div ng-if="!bad">
+
 
 				<div ng-if="plugins.plugins[job.pluginname].view.module === 'gauge'">
 					<div gauge gmin="plugins.plugins[job.pluginname].view.min" gmax="plugins.plugins[job.pluginname].view.max" gbad="plugins.plugins[job.pluginname].view.bad" gdata="lastresult.result"></div>
@@ -35,5 +37,6 @@
 
 		</div>
 		<!--pre>{{lastresult.result | limitTo : 50}}</pre-->
-	</panel>
+	</div>
 </div>
+

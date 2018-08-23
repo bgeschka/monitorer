@@ -44,10 +44,11 @@ define([
 					}).then(function(result) {
 						$scope.lastresult = result;
 						$scope.waiting = !!($scope.lastresult.result.match(/__WAITING__/));
-						console.log("set waiting:",$scope.waiting);
+						$scope.bad = $scope.lastresult.result.match('BAD');
 						next();
 					}).catch( function (err) {
 						console.err("failed:", err);
+						$scope.bad=true;
 						next();
 					});
 

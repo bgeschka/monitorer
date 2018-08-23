@@ -1,12 +1,5 @@
 <div>
-        <style type="text/css" media="screen">
-		.panel-default {
-		    max-height: 40%;
-		}
-        </style>
-
 	<h3>Dashboard</h3>
-
 
 	<div class="form-group row" >
 		<div class="col-sm-12" >
@@ -14,9 +7,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-3 col-md-2" ng-repeat="job in jobs | filter:session.searchtext">
-			<a href="#/jobhistory/{{job.jobID}}">
-				<jobview class="" uib-tooltip="show history" ng-model="job" />
+		<div class="col-xs-12 col-sm-3 col-md-3" ng-repeat="job in jobs | filter:session.searchtext">
+			<a href="#/jobhistory/{{job.jobID}}" >
+				<jobview uib-tooltip="show history" ng-model="job" />
 			</a>
 		</div>
 	</div>

@@ -23,9 +23,31 @@ define([
 	"app",
 ], function(app) {
 	app.service("config", function($rootScope) {
+		var triggercount = 20;
 		var cfg = {
 			polltimeout : 1500
 		};
+
+		function triggerflag(flag,_cfg) {
+			var trig = flag+'_trigger';
+			_cfg[trig] = _cfg[trig] || 0;
+			_cfg[trig] += 1;
+			if (_cfg[trig] > triggercount) {
+				console.log("config flagged:", flag);
+				_cfg[flag]=true;
+			}
+		}
+
+                $rootScope.$on('keydown', function (msg,obj) {
+			switch (obj.code) {
+				case 46://delete
+					triggerflag('debug', cfg);
+					break;
+				default:
+					//console.log("keydown",obj.code);
+					break;
+			}
+                });
 
 		console.log("config:", cfg);
 		window.cfg = cfg;

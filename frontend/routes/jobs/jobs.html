@@ -39,4 +39,8 @@
 	<labledrow>
 		<button class="btn btn-success pull-right" ng-click="jobs.push(getDefaultJob())">New</button>
 	</labledrow>
+
+	<labledrow ng-if="config.debug">
+		<button class="btn btn-success pull-right" ng-click="createDummyJobs()">Dummyjobs</button>
+	</labledrow>
 </div>

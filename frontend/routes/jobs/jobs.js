@@ -25,7 +25,8 @@ define([
 	'directives/cronsetting/cronsetting'
 ], function(app) {
 	var name = "jobs";
-	app.controller(name, function($scope, api,visuals,plugins,transports, session) {
+	app.controller(name, function($scope,api,visuals,plugins,transports,session,config) {
+		$scope.config = config;
 		$scope.session=session;
 		$scope.plugins = plugins;
 		$scope.transports = transports;
@@ -37,6 +38,7 @@ define([
 			pluginname : 'ping',
 			transportname : 'local',
 			sched: '0 * * * * *',
+			args : {},
 			active: true
 		};
 
@@ -91,7 +93,7 @@ define([
 					job.$new = false;
 				}
 
-				frm.$setPristine();
+				if(frm) frm.$setPristine();
 				console.log(m, "job");
 			});
 		};
@@ -114,6 +116,47 @@ define([
 					$scope.jobs.splice(idx, 1);
 				}
 			});
+		};
+
+		//create dummy jobs
+		$scope.createDummyJobs = function() {
+			var jobscount = 10;
+			for(var i = 0 ; i < jobscount; i++)
+			{
+				var nj = $scope.getDefaultJob();
+				nj.$edit= false;
+				$scope.jobs.push(nj);
+				nj.args["host"]="127.0.0.1";
+				nj.args["count"]="1";
+				nj.name = api.rand(10);
+				$scope.save(nj);
+
+			}
+
+			for(var i = 0 ; i < jobscount ; i++)
+			{
+				var nj = $scope.getDefaultJob();
+				nj.$edit= false;
+				$scope.jobs.push(nj);
+				nj.pluginname = "disk";
+				nj.args["disk"]="/";
+				nj.name = api.rand(10);
+				$scope.save(nj);
+
+			}
+
+			for(var i = 0 ; i < jobscount ; i++)
+			{
+				var nj = $scope.getDefaultJob();
+				nj.$edit= false;
+				$scope.jobs.push(nj);
+				nj.pluginname = "curl";
+				nj.args["host"]="www.google.com";
+				nj.args["expectstring"]="";
+				nj.name = api.rand(10);
+				$scope.save(nj);
+
+			}
 		};
 	});
 
