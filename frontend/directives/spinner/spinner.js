@@ -22,7 +22,7 @@
 define(['app'], function (app) {
     app.directive('spinner'  , [  function(){
         return {
-            restrict: 'A',
+            restrict: 'EA',
             templateUrl: 'directives/spinner/spinner.html',
             transclude: true
         };
