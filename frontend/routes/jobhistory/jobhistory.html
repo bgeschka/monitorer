@@ -2,9 +2,9 @@
         <div ng-if="error">
 		{{error}}
         </div>
-        <div ng-if="loading">
+        <spinner ng-if="loading">
 		<h3>Loading results for:{{job.name}} {{job.pluginname}} ({{jobid}}) - via {{job.transportname}}</h3>
-        </div>
+        </spinner>
         <div ng-if="!loading">
 		<h3>{{job.name}} {{job.pluginname}} ({{jobid}}) - via {{job.transportname}}</h3>
 	
