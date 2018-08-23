@@ -16,6 +16,7 @@ should not be used in production or on the internet at all. If you really want t
   * portcheck
   * command
   * disk space in %
+  * ram usage in %
 * supports gmail mailing of state changes
 * cron like schedule with [cron-parser](https://www.npmjs.com/package/cron-parser)
 
