@@ -30,10 +30,13 @@ const userconfig = require('./userconfig');
 
 module.exports = (subj, message) => {
 	var usercfg = userconfig.get();
-	Log.debug("sending message", usercfg);
+	Log.debug("sending message because:", usercfg);
+
+	Log.debug('subject',subj);
+	Log.debug('message',message);
 
 	if (!usercfg.emailalert) {
-		Log.silly("not mailing, as is disabled");
+		Log.debug("not mailing, as is disabled");
 		return new Promise( (resolve) => {
 			resolve("not mailing");
 		});

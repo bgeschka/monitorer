@@ -93,18 +93,21 @@ class Job{
 	}
 
 	loadPlugin() {
+		if(this.$plugin) return;
 		var pp = './plugins/' + this.pluginname;
 		Log.silly("load plugin:", pp);
 		this.$plugin = require(pp);
 	}
 
 	loadTransport(){
+		if(this.$transport) return;
 		var pp = './transports/' + this.transportname;
 		Log.silly("load transport:", pp);
 		this.$transport = require(pp);
 	}
 
 	loadSched() {
+		if(this.$sched) return;
 		this.$sched = new Schedule();
 		this.$sched.set(this.sched);
 	}
@@ -188,7 +191,7 @@ class Job{
 		try {
 			result = await this.$transport.exec(this.transportargs, cmd);
 		} catch (e) {
-			Log.error('failed on executing', e.toString());
+			Log.error('failed on executing', cmd, e.toString());
 			result = await this.goneBad(e.toString());
 		}
 		var _result = result;

@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 const SSH2Promise = require('ssh2-promise');
+const Log = require('../Log')('transport-ssh');
 
 function connect(host,port,user,password) {
         var user = user || process.env.USER;
@@ -47,14 +48,25 @@ function connect(host,port,user,password) {
 var _args = ['host','port','username','password'];
 module.exports.args = _args;
 module.exports.exec = async (args,cmd) => {
-	var ssh = await connect(
-		args[_args[0]],
-		args[_args[1]],
-		args[_args[2]],
-		args[_args[3]]
-	);
+	var ssh = null;
+	try {
+		ssh = await connect(
+			args[_args[0]],
+			args[_args[1]],
+			args[_args[2]],
+			args[_args[3]]
+		);
+	} catch (e) {
+		throw Log.error('failed to connect');
+	}
 
-	var res = await ssh.exec(cmd);
+	var res = '';
+	try {
+		res = await ssh.exec(cmd);
+	} catch (e) {
+		throw Log.error('failed to execute ssh command:',cmd,e);
+	}
+
 	await ssh.close();
 	return res;
 };

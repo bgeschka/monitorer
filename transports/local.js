@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 const exec = require('child_process').exec;
+const Log = require('../Log')('transport-local');
 
 module.exports.args = [];
 module.exports.exec = (args,cmd) => {

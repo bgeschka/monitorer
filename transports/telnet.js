@@ -20,6 +20,7 @@
  * THE SOFTWARE.
  */
 const Telnet = require('telnet-client');
+const Log = require('../Log')('transport-telnet');
 
 var _args = [
 	'host',

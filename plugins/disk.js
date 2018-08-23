@@ -23,11 +23,15 @@ module.exports.command = "df {disk}";
 module.exports.args = ["disk"];
 
 module.exports.parse = function (resultstring) {
+	console.log('disk 1:', resultstring);
 	var l = resultstring.split('\n')[1];
+	console.log('disk 2 line:', l);
 	var parts = l.split(/\s+/)[4];
+	console.log('disk 3 parts:', parts);
 	if(!parts) {
-		throw "failed to parse [" + resultstring + "]";
-		return;
+		console.log('disk 4 failed to get parts');
+		//throw "failed to parse [" + resultstring + "]";
+		return resultstring;
 	}
 	parts = parts.replace( /\D+/g, '');
 	return parts;	
