@@ -23,12 +23,15 @@ define([
 	'app',
 	'directives/labledrow/labledrow',
 	'directives/jobview/jobview',
+	'directives/spinner/spinner',
 ], function(app) {
 	var name = "jobhistory";
 	app.controller(name, function($scope, $routeParams, api, poll, visuals) {
 		$scope.jobid = $routeParams.jobid;
 
 		$scope.history=[];
+
+		$scope.loading = true;
 
 		api.call({
 			method:'getjob',
@@ -43,6 +46,7 @@ define([
 				method: "jobhistory",
 				jobID: $scope.jobid
 			}).then(function(result) {
+				$scope.loading = false;
 				result.result.forEach(function(e) {
 					e.$datenice = new Date(parseInt(e.time.replace(".out", "")));
 				});
@@ -50,6 +54,10 @@ define([
 				angular.extend($scope.history, result.result);
 
 				next();
+			}).catch( function (err) {
+				$scope.loading = false;
+				$scope.error = err;
+				console.error(err);
 			});
 		});
 
