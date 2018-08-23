@@ -25,6 +25,9 @@ module.exports.args = ["disk"];
 module.exports.parse = function (resultstring) {
 	var l = resultstring.split('\n')[1];
 	var parts = l.split(/\s+/)[4];
+	if(!parts) {
+		return throw "failed to parse [" + resultstring + "]";
+	}
 	parts = parts.replace( /\D+/g, '');
 	return parts;	
 };
