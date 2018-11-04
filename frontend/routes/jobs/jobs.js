@@ -61,6 +61,10 @@ define([
 			angular.extend($scope.jobs, jobs);
 		});
 
+		$scope.runAll = function () {
+			$scope.jobs.forEach( j => $scope.run(j));
+		};
+
 		$scope.run = function(job) {
 			visuals.pushSpinner();
 			api.call({
