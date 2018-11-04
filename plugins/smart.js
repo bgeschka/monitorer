@@ -23,7 +23,11 @@ module.exports.command = "sudo smartctl -H {disk}";
 module.exports.args = ["disk"];
 
 module.exports.bad = function (parsedresult, args) {
-	return !parsedresult.match(/test result: PASSED/);
+	var match = !!parsedresult.match(/test result: PASSED/);
+	if (!match) {
+		console.log("smart failed as for:", parsedresult);
+	}
+	return !match;
 };
 
 module.exports.view = {
