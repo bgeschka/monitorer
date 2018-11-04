@@ -21,6 +21,7 @@
  */
 const extend = require('../extend');
 const Job = require('../Job');
+const Log = require('../Log')('RPC-job');
 const { jsonresponse, jsonresponseDone } = require('./rpc_common');
 
 module.exports = async (jm,req,res) => {
@@ -40,10 +41,17 @@ module.exports = async (jm,req,res) => {
 		case 'updatejob':
 			var data = req.body.data;
 			var job = jm.getJobByID(data.jobID);
-			if(!job) return;
+			if(!job) {
+				Log.error("could not find job to update");
+				return;
+			}
+
+
 			extend(job, data);
 			job.resetLastResult();
 			job.save();
+
+			await job.reload();
 			jsonresponseDone(res);
 			break;
 		case 'lastresult':

@@ -52,7 +52,7 @@ function lsdir(dir) {
 
 function cleandir(dir, olderthanhours) {
 	fs.readdir(dir, function(err, files) {
-		if(err) return;
+		if (err) return;
 
 		files.forEach(function(file) {
 			fs.stat(path.join(dir, file), function(err, stat) {
@@ -61,7 +61,7 @@ function cleandir(dir, olderthanhours) {
 					return console.error(err);
 				}
 				now = new Date().getTime();
-				endTime = new Date(stat.ctime).getTime() + ( olderthanhours * 3600000) ;
+				endTime = new Date(stat.ctime).getTime() + (olderthanhours * 3600000);
 				if (now > endTime) {
 					return rimraf(path.join(dir, file), function(err) {
 						if (err) {
@@ -75,17 +75,19 @@ function cleandir(dir, olderthanhours) {
 }
 
 
-class Job{
-	constructor(){
+class Job {
+	constructor() {
 		Log.silly("create Job object");
 		this.$lastresult = "__WAITING__";
 		this.transportname = 'local';
+		this.$badcount = 0;
+		this.badthreshold = 0;
 	}
 
-	clean(){
+	clean() {
 		Log.silly('performing clean on:', this.getHistoryPath());
 		var usercfg = userconfig.get();
-		cleandir(this.getHistoryPath(), usercfg.logkeep || 1 );
+		cleandir(this.getHistoryPath(), usercfg.logkeep || 1);
 	}
 
 	resetLastResult() {
@@ -93,97 +95,103 @@ class Job{
 	}
 
 	loadPlugin() {
-		if(this.$plugin) return;
+		if (this.$plugin) return;
 		var pp = './plugins/' + this.pluginname;
 		Log.silly("load plugin:", pp);
 		this.$plugin = require(pp);
 	}
 
-	loadTransport(){
-		if(this.$transport) return;
+	loadTransport() {
+		if (this.$transport) return;
 		var pp = './transports/' + this.transportname;
 		Log.silly("load transport:", pp);
 		this.$transport = require(pp);
 	}
 
 	loadSched() {
-		if(this.$sched) return;
+		if (this.$sched) return;
 		this.$sched = new Schedule();
 		this.$sched.set(this.sched);
 	}
 
 	/*create a new one*/
-	create(opts){
+	create(opts) {
 		Log.silly("create new Job");
-		extend(this,opts);
+		extend(this, opts);
 
 		this.jobID = rand(JOBIDLEN);
-		this.active=true;
+		this.active = true;
 		this.loadSched();
 		this.save();
 	}
 
-	compile(cmdtemplate, args){
+	compile(cmdtemplate, args) {
 		Log.silly("compile");
 		var cpy = cmdtemplate;
 		for (var tn in args) {
-			cpy = cpy.replace('{'+tn+'}', args[tn]);
+			cpy = cpy.replace('{' + tn + '}', args[tn]);
 		}
 		return cpy;
 	}
 
-	compileCommand(){
+	compileCommand() {
 		this.loadPlugin();
 		var compiled = this.compile(this.$plugin.command, this.args);
 		return compiled;
 	}
 
 	getJobIdentifier() {
-		return this.name + ' ' + this.pluginname + ' '+ this.getjobID();
+		return this.name + ' ' + this.pluginname + ' ' + this.getjobID();
 	}
 
 	getjobID() {
 		return this.jobID;
 	}
 
-	composeMail(ident, headline, result){
+	composeMail(ident, headline, result) {
 		var msg = `
 		<html>
-			<h3>`+headline+` `+ident+`</h3>
+			<h3>` + headline + ` ` + ident + `</h3>
 
 			Result:
-			<pre>`+result+`</pre>
+			<pre>` + result + `</pre>
 		</html>
 		`;
 		return msg;
 	}
 
-	async notifyBad(result){
+	async notifyBad(result) {
 		Log.silly("mailing bad status");
 		var ident = this.getJobIdentifier();
 		await Mail(config.systemname + " [BAD]: " + ident, this.composeMail(ident, "Job Gone Bad", result));
 	}
 
-	async goneBad(result){
-		if (!this.$bad) {
-			this.$bad = true;
-			await this.notifyBad(result);
-		} else {
-			Log.silly("bad already mailed");
+	async goneBad(result) {
+		this.$badcount++;
+		Log.error("service going bad:", this.$badcount);
+		if (this.$badcount > this.badthreshold) {
+			if (!this.$bad) {
+				this.$bad = true;
+				Log.error("notify about bad state");
+				await this.notifyBad(result);
+			} else {
+				Log.silly("bad already mailed");
+			}
 		}
 
 		return E_BAD + '\n' + result;
 	}
 
 	async goneGood(result) {
-		if(this.$bad) {
-			this.$bad =false;
+		this.$badcount=0;
+		if (this.$bad) {
+			this.$bad = false;
 			var ident = this.getJobIdentifier();
 			await Mail(config.systemname + " [GOOD]: " + ident, this.composeMail(ident, "Job Gone Good", result));
 		}
 	}
 
-	async runReal(){
+	async runReal() {
 		this.loadTransport();
 		var cmd = this.compileCommand();
 		Log.silly("run:", cmd);
@@ -196,7 +204,7 @@ class Job{
 		}
 		var _result = result;
 
-		Log.silly("["+cmd+"] result:", result.substring(0, 40));
+		Log.silly("[" + cmd + "] result:", result.substring(0, 40));
 		if (!result) result = await this.goneBad(_result);
 
 		try {
@@ -205,7 +213,7 @@ class Job{
 			}
 
 			if (this.$plugin.bad) {
-				if(this.$plugin.bad(result, this.args)) {
+				if (this.$plugin.bad(result, this.args)) {
 					Log.error("plugin returned bad status");
 					result = await this.goneBad(_result);
 				}
@@ -221,24 +229,24 @@ class Job{
 		this.archiveResult(result);
 	}
 
-	async run(){
-		if(!this.active) {
+	async run() {
+		if (!this.active) {
 			Log.silly("inactive", this.getjobID());
 			return;
 		}
 
-		if(!this.$sched.check()) {
+		if (!this.$sched.check()) {
 			return;
 		}
 
 		await this.runReal();
 	}
 
-	getFileName(){
+	getFileName() {
 		return config.jobsdir + "/" + this.jobID + ".json";
 	}
 
-	getHistoryPath(){
+	getHistoryPath() {
 		var d = config.jobsdir + "/" + this.jobID;
 		try {
 			fs.mkdirSync(d);
@@ -249,15 +257,15 @@ class Job{
 	}
 
 	//load and instantiate from disk
-	load(jobID){
+	load(jobID) {
 		this.jobID = jobID;
-		Log.silly("load", jobID );
+		Log.silly("load", jobID);
 		var srcfile = this.getFileName();
 		var self = this;
 
-		return new Promise( (resolve,reject) => {
-			fs.readFile( srcfile, (err, data) => {
-				if(err) {
+		return new Promise((resolve, reject) => {
+			fs.readFile(srcfile, (err, data) => {
+				if (err) {
 					Log.error("failed to load:", err, srcfile);
 					reject(err);
 				} else {
@@ -271,25 +279,32 @@ class Job{
 		});
 	}
 
-	reload() {
-		this.load(this.getjobID());
+	async reload() {
+		Log.debug("reloading job");
+		await this.load(this.getjobID());
+		this.$plugin = null;
+		this.$transport = null;
+		this.$sched = null;
+		this.loadPlugin();
+		this.loadTransport();
+		this.loadSched();
 	}
 
 	//parse and set the values from str
-	fromJsonString(str){
+	fromJsonString(str) {
 		var jso = JSON.parse(str);
-		for(var f in jso) this[f] = jso[f];
+		for (var f in jso) this[f] = jso[f];
 		this.loadSched();
 	}
 
 	//store current state to disk
-	async save(){
+	async save() {
 		var self = this;
-		return new Promise( (resolve,reject) => {
+		return new Promise((resolve, reject) => {
 			var dstfile = self.getFileName();
 			var data = self.toJsonString(); //JSON.stringify(this);
-			fs.writeFile(dstfile, data, function (err) {
-				if(err) {
+			fs.writeFile(dstfile, data, function(err) {
+				if (err) {
 					Log.error("failed to load:", err, dstfile);
 					reject(err);
 				} else {
@@ -300,43 +315,42 @@ class Job{
 
 	}
 	//store to history disk
-	archiveResult(result){
+	archiveResult(result) {
 		var dst = this.getHistoryPath();
 		var cd = new Date();
 
 		this.clean();
-		fs.writeFile(dst+"/"+cd.getTime()+".out", result, function () {
+		fs.writeFile(dst + "/" + cd.getTime() + ".out", result, function() {
 			Log.silly("wrote file");
-		} );
+		});
 	}
 
 	toJson() {
 		var cpy = JSON.parse(JSON.stringify(this));
-		for( var f in cpy ) {
-			if(f.match(/^\$/)) delete cpy[f];
+		for (var f in cpy) {
+			if (f.match(/^\$/)) delete cpy[f];
 		}
 		return cpy;
 	}
 
-	toJsonString(){
+	toJsonString() {
 		var cpy = this.toJson();
 		return JSON.stringify(cpy);
 	}
 
-	getLastResult(){
+	getLastResult() {
 		return this.$lastresult || 'none';
 	}
 
 	//get the history n times back
-	async getHistory(){
+	async getHistory() {
 		var histp = this.getHistoryPath();
 		var files = lsdir(histp);
 		var ret = [];
-		for(var i = 0 ; i < files.length ; i++)
-		{
+		for (var i = 0; i < files.length; i++) {
 			var o = {
-				time : files[i],
-				data : await promise_io.promiseFileRead(histp + "/" + files[i])
+				time: files[i],
+				data: await promise_io.promiseFileRead(histp + "/" + files[i])
 			};
 			ret.push(o);
 		}
@@ -344,10 +358,12 @@ class Job{
 	}
 
 	//delete everthing of the job
-	remove(){
-		rimraf(this.getHistoryPath(), function () { Log.silly('deleted all history'); });
+	remove() {
+		rimraf(this.getHistoryPath(), function() {
+			Log.silly('deleted all history');
+		});
 		fs.unlinkSync(this.getFileName());
-		this.active=false;
+		this.active = false;
 	}
 }
 
