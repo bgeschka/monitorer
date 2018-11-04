@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module.exports.command = "sudo smartctl -H {disk}";
+module.exports.command = "sudo smartctl -H {disk} 2>&1; echo ''";
 module.exports.args = ["disk"];
 
 module.exports.bad = function (parsedresult, args) {
