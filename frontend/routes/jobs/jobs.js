@@ -62,16 +62,16 @@ define([
 		});
 
 		$scope.runAll = function () {
-			$scope.jobs.forEach( j => $scope.run(j));
+			$scope.jobs.forEach( j => $scope.run(j,true));
 		};
 
-		$scope.run = function(job) {
-			visuals.pushSpinner();
+		$scope.run = function(job,silent) {
+			if(!silent) visuals.pushSpinner();
 			api.call({
 				method: 'run',
 				jobID: job.jobID
 			}).then(function(res) {
-				visuals.popSpinner();
+				if(!silent) visuals.popSpinner();
 				console.log(res);
 				//visuals.pushModal('result of:' + job.name, res.result);
 
@@ -80,8 +80,8 @@ define([
 					result:res.result
 				});
 			}).catch( function (err) {
-				visuals.popSpinner();
-				visuals.pushModal('faild to run:' + job.name, err);
+				if(!silent) visuals.popSpinner();
+				if(!silent) visuals.pushModal('faild to run:' + job.name, err);
 			});
 		};
 
