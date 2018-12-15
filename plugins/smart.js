@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module.exports.command = "sudo smartctl -H {disk} 2>&1; echo ''";
-module.exports.args = ["disk"];
+module.exports.command = "{prefix} smartctl -H {disk} 2>&1; echo ''";
+module.exports.args = ["disk", "prefix"];
 
 module.exports.bad = function (parsedresult, args) {
 	var match = !!parsedresult.match(/test result: PASSED/);

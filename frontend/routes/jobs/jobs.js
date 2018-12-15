@@ -103,23 +103,29 @@ define([
 		};
 
 		$scope.remove = function(job) {
-			if(job.$new) {
-				var idx = $scope.jobs.indexOf(job);
-				if (idx !== -1) {
-					$scope.jobs.splice(idx, 1);
-				}
-				return;
-			}
+			visuals.modalAsk("Delete "+job.name+"?",
+				"Are you sure?",
+				"Delete", "Cancel" , function () {
+					if(job.$new) {
+						var idx = $scope.jobs.indexOf(job);
+						if (idx !== -1) {
+							$scope.jobs.splice(idx, 1);
+						}
+						return;
+					}
 
-			api.call({
-				method: 'deletejob',
-				data: job
-			}).then(function() {
-				var idx = $scope.jobs.indexOf(job);
-				if (idx !== -1) {
-					$scope.jobs.splice(idx, 1);
+					api.call({
+						method: 'deletejob',
+						data: job
+					}).then(function() {
+						var idx = $scope.jobs.indexOf(job);
+						if (idx !== -1) {
+							$scope.jobs.splice(idx, 1);
+						}
+					});
+
 				}
-			});
+			);
 		};
 
 		//create dummy jobs
@@ -162,6 +168,25 @@ define([
 
 			}
 		};
+
+		function stripHiddens(oobj, exclude) {
+			exclude = exclude || [];
+			var obj = JSON.parse(angular.toJson(oobj));
+			var n = {};
+			for(var f in obj)
+				if(!f.match(/^\$/) && exclude.indexOf(f) === -1) n[f] = obj[f];
+			return n;
+		}
+
+		$scope.export = function (j) {
+			visuals.pushModal("Export", "<pre>"+angular.toJson(stripHiddens(j,['jobID']))+"</pre>");
+		}
+		$scope.import = function (j) {
+			visuals.pushModal("Export", "<pre>"+angular.toJson(stripHiddens(j,['jobID']))+"</pre>");
+			visuals.modalPrompt("Import", "Data", "{}", "Import", function (data) {
+				angular.extend(j,JSON.parse(data));
+			});
+		}
 	});
 
 	return {
