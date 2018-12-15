@@ -178,14 +178,26 @@ define([
 			return n;
 		}
 
+		$scope.export_ext = function (j) {
+			var exp = stripHiddens(j,['jobID'])
+			exp.name = "export of " + exp.name;
+			return angular.toJson(exp);
+		}
 		$scope.export = function (j) {
-			visuals.pushModal("Export", "<pre>"+angular.toJson(stripHiddens(j,['jobID']))+"</pre>");
+			visuals.pushModal("Export", "<pre>"+$scope.export_ext(j)+"</pre>");
 		}
 		$scope.import = function (j) {
-			visuals.pushModal("Export", "<pre>"+angular.toJson(stripHiddens(j,['jobID']))+"</pre>");
 			visuals.modalPrompt("Import", "Data", "{}", "Import", function (data) {
 				angular.extend(j,JSON.parse(data));
 			});
+		}
+
+		$scope.duplicate = function (j) {
+			var ostr = $scope.export_ext(j);
+			var nj = $scope.getDefaultJob();
+			angular.extend(nj,JSON.parse(ostr));
+			nj.$edit=true;
+			$scope.jobs.push(nj);
 		}
 	});
 
