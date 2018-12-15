@@ -21,6 +21,7 @@
  */
 module.exports.command = "nc -z {host} {port} ; echo $?";
 module.exports.args = ["port", "host"];
+module.exports.descr = "Test if given port is open";
 
 module.exports.bad = function (parsedresult) {
         return (parsedresult != 0);

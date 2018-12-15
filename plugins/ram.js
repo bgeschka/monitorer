@@ -29,6 +29,7 @@ END{
 }' /proc/meminfo`;
 
 module.exports.args = [];
+module.exports.descr = "Test for used RAM, test is marked BAD if ram usage is above 90%";
 
 module.exports.bad = function (parsedresult) {
         return (parsedresult > 90);

@@ -21,6 +21,7 @@
  */
 module.exports.command = "ping -c {count} {host}";
 module.exports.args = ["count", "host"];
+module.exports.descr = "Pingtest a host, marked as BAD if latency is above 200, or not reachable";
 
 module.exports.parse = function (resultstring) {
 	var parts = resultstring.split(" ");

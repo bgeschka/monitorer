@@ -21,6 +21,7 @@
  */
 module.exports.command = "curl {host}";
 module.exports.args = ["host", "expectstring"];
+module.exports.descr = "Execute a curl command on the given host, the result is tested for the given expectstring";
 
 module.exports.bad = function (parsedresult, args) {
 	if (args["expectstring"]) {

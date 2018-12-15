@@ -21,6 +21,7 @@
  */
 module.exports.command = "{command}";
 module.exports.args = ["command"];
+module.exports.descr = "Execute a remote command";
 module.exports.view = {
 	module: "text"
 };

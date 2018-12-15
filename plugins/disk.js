@@ -21,6 +21,7 @@
  */
 module.exports.command = "df {disk}";
 module.exports.args = ["disk"];
+module.exports.descr = "Test for diskspace using df command, this test is marked BAD if diskusage is higher than 90%";
 
 module.exports.parse = function (resultstring) {
 	console.log('disk 1:', resultstring);

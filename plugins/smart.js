@@ -21,6 +21,10 @@
  */
 module.exports.command = "{prefix} smartctl -H {disk} 2>&1; echo ''";
 module.exports.args = ["disk", "prefix"];
+module.exports.descr = `Test smart status on disk(e.g. /dev/sda) using smartctl,
+	if you're executing as non-root and require sudo to run, 
+	enter \"sudo\" into the prefix field. For this to work, sudoers has to be setup for 
+	your user using NOPASSWD: ALL`;
 
 module.exports.bad = function (parsedresult, args) {
 	var match = !!parsedresult.match(/test result: PASSED/);
