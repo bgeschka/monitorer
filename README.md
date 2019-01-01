@@ -31,15 +31,12 @@ sudo ./install.sh
 
 
 ## Screenshots
-![Dashboard](http://files.bgeschka.de/monitorer-screens/2018-08-21-204824_1045x399_scrot.png)
-![Jobs](http://files.bgeschka.de/monitorer-screens/2018-08-21-204836_1053x400_scrot.png)
-![Jobs - Curl](http://files.bgeschka.de/monitorer-screens/2018-08-21-204903_877x632_scrot.png)
-![Jobs - Portscan](http://files.bgeschka.de/monitorer-screens/2018-08-21-204921_876x629_scrot.png)
-![Jobs - Ping](http://files.bgeschka.de/monitorer-screens/2018-08-21-204935_880x625_scrot.png)
-![Settings](http://files.bgeschka.de/monitorer-screens/2018-08-21-205009_886x458_scrot.png)
-![Transport - ssh](http://files.bgeschka.de/monitorer-screens/transport-ssh.png)
-![Transport - telnet](http://files.bgeschka.de/monitorer-screens/transport-telet.png)
-
+![Dashboard](http://files.bgeschka.de/monitorer-screens/dash-icons.png)
+![Dashboard](http://files.bgeschka.de/monitorer-screens/dash-list.png)
+![Job-Curl](http://files.bgeschka.de/monitorer-screens/jobedit-curl.png)
+![Job-SSH](http://files.bgeschka.de/monitorer-screens/jobedit-ssh.png)
+![Jobs](http://files.bgeschka.de/monitorer-screens/jobs.png)
+![Settings](http://files.bgeschka.de/monitorer-screens/settings.png)
 
 ## adding plugins
 
