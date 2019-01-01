@@ -3,23 +3,32 @@
 
 	<form name="settingsform">
 
+		<labledrow txt="Default dashboard view mode">
+			<select class="form-control" ng-model="config.cfg.config.viewmode">
+				<option value="icons">Icons</option>
+				<option value="list">List</option>
+			</select>
+		</labledrow>
 		<labledrow txt="Logkeep time in hours">
-			<input class="form-control" ng-model="config.logkeep" />
+			<input class="form-control" ng-model="config.cfg.config.logkeep"/>
+		</labledrow>
+		<labledrow txt="UI Polling in ms" uib-tooltip="This slows down your browser if set too low">
+			<input class="form-control" ng-model="config.cfg.config.polltimeout"/>
 		</labledrow>
 
 		<panel txt="Email Settings">
 			<labledrow txt="Email-alert">
-				<input type="checkbox" class="form-control" ng-model="config.emailalert" />
+				<input type="checkbox" class="form-control" ng-model="config.cfg.config.emailalert"/>
 			</labledrow>
-			<div ng-show="config.emailalert">
+			<div ng-show="config.cfg.config.emailalert">
 				<labledrow txt="Target Email Address">
-					<input class="form-control" ng-model="config.email_target" />
+					<input class="form-control" ng-model="config.cfg.config.email_target"/>
 				</labledrow>
 				<labledrow txt="GMail User">
-					<input class="form-control" ng-model="config.email_smtp_user" />
+					<input class="form-control" ng-model="config.cfg.config.email_smtp_user"/>
 				</labledrow>
 				<labledrow txt="GMail Pass">
-					<input class="form-control" ng-model="config.email_smtp_pass" />
+					<input class="form-control" ng-model="config.cfg.config.email_smtp_pass"/>
 				</labledrow>
 			</div>
 		</panel>

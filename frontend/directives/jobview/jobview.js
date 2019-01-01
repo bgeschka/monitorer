@@ -21,10 +21,7 @@
  */
 define([
 	'app',
-	'api/poll',
-	'directives/panel/panel',
-	'directives/gauge/gauge',
-	'directives/spinner/spinner',
+	'directives/jobresult/jobresult',
 ], function(app) {
 	app.directive('jobview', [function() {
 		return {
@@ -34,29 +31,7 @@ define([
 				job : '=ngModel'
 			},
 			replace: true,
-			controller: function($scope,api,poll, plugins) {
-				$scope.plugins = plugins;
-				$scope.p = poll.create();
-				$scope.p.run(function(next) {
-					api.call({
-						method:"lastresult",
-						jobID: $scope.job.jobID
-					}).then(function(result) {
-						$scope.lastresult = result;
-						$scope.waiting = !!($scope.lastresult.result.match(/__WAITING__/));
-						$scope.bad = $scope.lastresult.result.match('BAD');
-						next();
-					}).catch( function (err) {
-						console.err("failed:", err);
-						$scope.bad=true;
-						next();
-					});
-
-				});
-
-				$scope.$on('$destroy', function () {
-					$scope.p.stop();
-				});
+			controller: function($scope) {
 			}
 		};
 	}]);

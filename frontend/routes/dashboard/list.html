@@ -1,0 +1,10 @@
+<table class="table table-hover table-bordered">
+	<tbody>
+		<tr ng-repeat="job in jobs | orderBy:'-name' | filter:session.searchtext"  ng-click="showHist(job)">
+			<td>{{job.name}}</td>
+			<td>{{job.pluginname}}</td>
+			<td><jobresult ng-model="job" small="true"></jobresult></td>
+			<!--td>{{job|json}}</td-->
+		</tr>
+	</tbody>
+</table>

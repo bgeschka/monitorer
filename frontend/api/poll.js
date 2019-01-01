@@ -24,6 +24,7 @@ define([
 	"api/config"
 ], function(app) {
 	app.service("poll", function(config, $timeout) {
+		console.log("conf in poll", config);
 		this.create = function () {
 			return {
 				run : function (pollfn) {
@@ -33,7 +34,7 @@ define([
 						if (!self.stopped) {
 							$timeout( function () {
 								self.run(self.pollfn);
-							},config.polltimeout);
+							},config.cfg.config.polltimeout);
 						}
 					});
 				},

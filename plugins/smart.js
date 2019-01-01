@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module.exports.command = "{prefix} smartctl -H {disk} 2>&1; echo ''";
+module.exports.command = "{prefix} smartctl -H {disk} 2>&1; echo 'done'";
 module.exports.args = ["disk", "prefix"];
 module.exports.descr = `Test smart status on disk(e.g. /dev/sda) using smartctl,
 	if you're executing as non-root and require sudo to run, 

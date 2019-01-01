@@ -25,7 +25,8 @@ define([
 	'directives/jobview/jobview',
 ], function(app) {
 	var name = "dashboard";
-	app.controller(name, function($scope, api, session) {
+	app.controller(name, function($scope, api, session, $location, config) {
+		$scope.config = config;
 		$scope.session = session;
 		api.call({
 			method:'listjobs'
@@ -34,6 +35,11 @@ define([
 				return j.active;
 			});
 		});
+
+		$scope.showHist = function (job) {
+			console.log("showhist", job);
+			$location.path("/jobhistory/"+job.jobID);
+		}
 	});
 
 	return {

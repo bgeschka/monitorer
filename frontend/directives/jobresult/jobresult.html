@@ -1,0 +1,36 @@
+<div uib-tooltip="{{job.pluginname}} {{lastresult.result}}">
+	<div ng-if="bad">
+		<center ng-if="!small">
+			<br></br>
+			<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:5em"></span>
+			<br></br>
+		</center>
+		<center ng-if="small">
+			<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:1em"></span>
+		</center>
+	</div>
+	<div ng-if="!bad">
+
+
+		<div ng-if="plugins.plugins[job.pluginname].view.module === 'gauge'">
+			<div ng-if="!small" gauge gmin="plugins.plugins[job.pluginname].view.min" gmax="plugins.plugins[job.pluginname].view.max" gbad="plugins.plugins[job.pluginname].view.bad" gdata="lastresult.result"></div>
+			<uib-progressbar ng-if="small" type="getBarType(job)" max="plugins.plugins[job.pluginname].view.max" value="lastresult.result"><span style="color:white; white-space:nowrap;">{{lastresult.result}} / {{plugins.plugins[job.pluginname].view.max}}</span></uib-progressbar>
+		</div>
+
+		<div ng-show="plugins.plugins[job.pluginname].view.module === 'ok'">
+			<center ng-if="!small">
+				<br></br>
+				<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;font-size:5em"></span>
+				<br></br>
+			</center>
+			<center ng-if="small">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true" style="color:green;font-size:1em"></span>
+			</center>
+		</div>
+
+		<div ng-show="plugins.plugins[job.pluginname].view.module === 'text'" >
+			{{lastresult.result}}
+		</div>
+	</div>
+
+</div>

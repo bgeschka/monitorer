@@ -20,56 +20,51 @@
  * THE SOFTWARE.
  */
 define([
-	"app",
+	'app',
+	'api/poll',
+	'directives/panel/panel',
+	'directives/gauge/gauge',
+	'directives/spinner/spinner',
 ], function(app) {
-	app.service("config", function($rootScope, api) {
-		this.triggercount = 20;
-		this.cfg = {
-			config : {
-				polltimeout : 1500,
-				viewmode : "list"
+	app.directive('jobresult', [function() {
+		return {
+			restrict: 'E',
+			templateUrl: 'directives/jobresult/jobresult.html',
+			scope: {
+				job : '=ngModel',
+				small : '=small'
+			},
+			replace: true,
+			controller: function($scope,api,poll, plugins) {
+				$scope.plugins = plugins;
+				$scope.p = poll.create();
+				$scope.p.run(function(next) {
+					api.call({
+						method:"lastresult",
+						jobID: $scope.job.jobID
+					}).then(function(result) {
+						$scope.lastresult = result;
+						$scope.waiting = !!(result.result.match(/__WAITING__/));
+						$scope.bad = result.result.match('BAD');
+						next();
+					}).catch( function (err) {
+						console.error("failed:", err);
+						$scope.bad=true;
+						next();
+					});
+
+				});
+
+				$scope.$on('$destroy', function () {
+					$scope.p.stop();
+				});
+
+
+				$scope.getBarType = function(job) {
+					if ($scope.bad) return "danger";
+					return "success";
+				}
 			}
 		};
-
-		function triggerflag(flag,_cfg) {
-			var trig = flag+'_trigger';
-			_cfg[trig] = _cfg[trig] || 0;
-			_cfg[trig] += 1;
-			if (_cfg[trig] > triggercount) {
-				console.log("config flagged:", flag);
-				_cfg[flag]=true;
-			}
-		}
-
-                $rootScope.$on('keydown', function (msg,obj) {
-			switch (obj.code) {
-				case 46://delete
-					triggerflag('debug', cfg);
-					break;
-				default:
-					//console.log("keydown",obj.code);
-					break;
-			}
-                });
-
-		api.call({
-			method:"getconfig"
-		}).then( function (res) {
-			this.cfg.config = res.config;
-		});
-
-		this.save = function (frm) {
-			api.call({
-				method:"setconfig",
-				config : this.cfg.config
-			}).then( function (res) {
-				if(frm) frm.$setPristine();
-				this.cfg.config = res.config;
-			});
-		};
-
-
-		window.cfg = this.cfg;
-		return this;
-	});
+	}]);
 });
