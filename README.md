@@ -2,8 +2,14 @@
 
 ## This is a __work-in-progress__ monitoring application written in node
 
-Please note that there is no authentication mechanism at all at the moment and this
-should not be used in production or on the internet at all. If you really want to, use htpasswd protection
+Monitorer has no built-in authentication in place, use basic-auth via htpasswd protection instead,
+or run it in a closed up network environment like a VPN or LAN.
+Monitorer has no Database dependency, all operating configuration is stored in flat files,
+organized in a way that no lookup is required.
+
+## Dependencies
+* nodejs & npm
+* systemd based system (optional if you can install by hand)
 
 ## Features
 * transport support for
@@ -17,6 +23,7 @@ should not be used in production or on the internet at all. If you really want t
   * command
   * disk space in %
   * ram usage in %
+  * SMART status of disks
 * supports gmail mailing of state changes
 * cron like schedule with [cron-parser](https://www.npmjs.com/package/cron-parser)
 
