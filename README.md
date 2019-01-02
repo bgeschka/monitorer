@@ -1,6 +1,19 @@
 # monitorer
 
-## This is a __work-in-progress__ monitoring application written in node
+## This is a __monitoring application written in node
+
+Monitorer is built to provide a simple way for monitoring UNIX commands and more on remote and local machines.
+It can be setup to inform you with an E-Mail message if a task goes into bad state.
+What a bad state is, is defined by the plugin used, or if the command exits with non-0.
+
+Examples:
+You can monitor websites you're in charge of with the curl plugin,
+and test for a given String in the result(e.g. the sites \<title>), to validate its up and healthy.
+If your webserver goes down, or the certificate runs out, the curl plugin can no longer get the page
+and validate the expected String in the result.
+Then Monitorer sends you an email that the job has gone into BAD state.
+Once you fixed the issue after receiving the email,
+you'll receive another email telling you the job has gone into GOOD state again.
 
 Monitorer has no built-in authentication in place, use basic-auth via htpasswd protection instead,
 or run it in a closed up network environment like a VPN or LAN.
