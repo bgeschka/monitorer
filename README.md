@@ -1,6 +1,6 @@
 # monitorer
 
-## This is a __monitoring application written in node
+## This is a monitoring application written in node
 
 Monitorer is built to provide a simple way for monitoring UNIX commands and more on remote and local machines.
 It can be setup to inform you with an E-Mail message if a task goes into bad state.
