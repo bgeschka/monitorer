@@ -44,7 +44,11 @@ mpath="$(dirname "$(realpath ./main.js)" )"
 sed 's#{{mainpath}}#'"$mpath"'#g' systemd.service > $systemdinstallpath || err 'failed to prepare systemd.service'
 
 sed -i 's/root/'"$USER"'/g' $systemdinstallpath
-printf "Which user do you want to run monitorer as?(default $USER):"
+cat<<EOF
+Which user do you want to run monitorer as?
+Note that the choosen user is used for Transport SSH commands to remote sites
+(default $USER):
+EOF
 read runuser
 
 [ -n "$runuser" ] && sed -i 's/'"$USER"'/'"$runuser"'/g' $systemdinstallpath
