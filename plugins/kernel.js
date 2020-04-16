@@ -19,32 +19,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-module.exports.command = "df {disk}";
-module.exports.args = ["disk"];
-module.exports.descr = "Test for diskspace using df command, this test is marked BAD if diskusage is higher than 90%";
+module.exports.command = "dmesg -l emerg,alert,crit,err"
+module.exports.args = ["max"];
+module.exports.descr = "Test if more than max kernel errors occured";
 
-module.exports.parse = function (resultstring) {
-	console.log('disk 1:', resultstring);
-	var l = resultstring.split('\n')[1];
-	console.log('disk 2 line:', l);
-	var parts = l.split(/\s+/)[4];
-	console.log('disk 3 parts:', parts);
-	if(!parts) {
-		console.log('disk 4 failed to get parts');
-		//throw "failed to parse [" + resultstring + "]";
-		return resultstring;
-	}
-	parts = parts.replace( /\D+/g, '');
-	return parts;	
-};
+module.exports.bad = function (parsedresult, args) {
+	var count = parsedresult.split("\n").filter(function (line) {
+		return line.length > 2; //filter empty lines
+	});
+	console.log("bad kernel messages:", count, parsedresult);
+	if(count > parseInt(args.max,10))
+		return true;
 
-module.exports.bad = function (parsedresult) {
-        return (parsedresult > 90);
+	return false;
 };
 
 module.exports.view = {
-	module: "gauge",
-	bad : 80,
-	max : 100,
-	min : 1
+	module: "ok"
 };
+
+
