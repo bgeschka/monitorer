@@ -34,7 +34,8 @@ define([
 				gmin: "=",
 				gbad: "=",
 				gmax: "=",
-				gdata: "="
+				gdata: "=",
+				identifier: "="
 			},
 
 			link: function(scope, element) {
@@ -74,13 +75,18 @@ define([
 					var val = parseInt(scope.gdata); //-80;
 					if (!scope.g) {
 						init();
-						$timeout(function () { //Retry 
+						$timeout(function () { //Retry
 							draw(done);
 						}, 300);
 						return;
 					}
 
-					console.log("draw set val : ", val);
+					console.log(scope.identifier, "draw set val : ",
+						"gmin :",scope.gmin,
+						"gbad :",scope.gbad,
+						"gmax :",scope.gmax,
+						"gdata:",scope.gdata
+					);
 					scope.g.setValueAnimated(val, 1 /*animation duration*/ );
 					$timeout(done, doneTimeo);
 				}

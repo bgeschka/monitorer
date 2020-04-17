@@ -43,7 +43,9 @@ define([
 						method:"lastresult",
 						jobID: $scope.job.jobID
 					}).then(function(result) {
+
 						$scope.lastresult = result;
+						console.log("render: plugin", $scope.job.name, $scope.plugins.plugins[$scope.job.pluginname]);
 						$scope.waiting = !!(result.result.match(/__WAITING__/));
 						$scope.bad = result.result.match('BAD');
 						next();

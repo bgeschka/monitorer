@@ -97,13 +97,13 @@ module.exports.parse = function (parsedresult, args) {
 	});
 	console.log("SMART_RESULT:", smartattributes);
 	console.log("lowest_heatlh:", lowest_smart_health);
-	return ""+lowest_smart_health.toFixed(2);
+	return ""+(100-lowest_smart_health).toFixed(2);
 };
 
 module.exports.bad = function (parsedresult, args) {
 	if(!args.health) args.health = "20";
 	var healthi = parseInt(args.health, 10);
-        return (parseInt(parsedresult, 10) < healthi);
+        return ((parseInt(parsedresult, 10) + healthi) > 100);
 };
 
 //module.exports.view = {
@@ -111,8 +111,9 @@ module.exports.bad = function (parsedresult, args) {
 //};
 module.exports.view = {
 	module: "gauge",
-	bad : 0,
+	bad : 60,
 	max : 100,
-	min : 0
+	min : 1,
+	info : "Disk Decay(more is bad)"
 };
 
