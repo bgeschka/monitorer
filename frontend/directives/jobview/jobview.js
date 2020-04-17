@@ -31,7 +31,26 @@ define([
 				job : '=ngModel'
 			},
 			replace: true,
-			controller: function($scope) {
+			controller: function($scope, api, visuals) {
+				$scope.run = function(job,silent) {
+					if(!silent) visuals.pushSpinner();
+					api.call({
+						method: 'run',
+						jobID: job.jobID
+					}).then(function(res) {
+						if(!silent) visuals.popSpinner();
+						console.log(res);
+						//visuals.pushModal('result of:' + job.name, res.result);
+
+						visuals.pushModal('result of:' + job.name, "<pre>{{result}}</pre>", "", function () {
+						}, "lg", {
+							result:res.result
+						});
+					}).catch( function (err) {
+						if(!silent) visuals.popSpinner();
+						if(!silent) visuals.pushModal('faild to run:' + job.name, err);
+					});
+				};
 			}
 		};
 	}]);

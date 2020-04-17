@@ -9,7 +9,7 @@
 			<span class="glyphicon glyphicon-alert" aria-hidden="true" style="color:red;font-size:1em"></span>
 		</center>
 	</div>
-	<div ng-if="!bad" uib-tooltip="{{plugins.plugins[job.pluginname].view.info || '-'}}">
+	<div ng-if="!bad" uib-tooltip="{{plugins.plugins[job.pluginname].view.info || '-'}} = {{lastresult.result}}">
 		<div ng-if="plugins.plugins[job.pluginname].view.module === 'gauge'">
 			<div ng-if="!small" gauge identifier="job.name" gmin="plugins.plugins[job.pluginname].view.min" gmax="plugins.plugins[job.pluginname].view.max" gbad="plugins.plugins[job.pluginname].view.bad" gdata="lastresult.result"></div>
 			<uib-progressbar ng-if="small" type="getBarType(job)" max="plugins.plugins[job.pluginname].view.max" value="lastresult.result"><span style="color:white; white-space:nowrap;">{{lastresult.result}} / {{plugins.plugins[job.pluginname].view.max}}</span></uib-progressbar>

@@ -271,7 +271,11 @@ class Job {
 				} else {
 					var d = data.toString();
 					Log.silly("reconstruct from:", d);
-					self.fromJsonString(d);
+					try {
+						self.fromJsonString(d);
+					} catch (e) {
+						Log.error("failed to json parse:", e, "data:", d, "buffer:", data, "readreturn", err);
+					}
 					resolve(data);
 				}
 

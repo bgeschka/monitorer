@@ -13,3 +13,21 @@
 .dashboardcard {
 	max-height:250px;
 }
+
+select,
+.clickable {
+        cursor: pointer;
+}
+
+select:hover,
+.clickable:hover,
+.dragable:hover {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 139, 255, 0.67);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0, 139, 255, 0.67);
+        box-shadow: 0px 0px 5px 0px rgba(0, 139, 255, 0.67);
+}
+
+

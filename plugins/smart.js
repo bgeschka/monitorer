@@ -86,8 +86,12 @@ function parseSmartAttributes(cmdout) {
 
 
 module.exports.parse = function (parsedresult, args) {
+	if(parsedresult.length < 10) {
+		console.log("no result from smart status", parsedresult, args);
+		return "100";
+	}
 	var match = !!parsedresult.match(/SMART overall-health self-assessment test result: PASSED/);
-	if(!match) return "0";
+	if(!match) return "100";
 
 	var smartattributes = parseSmartAttributes(parsedresult);
 	var lowest_smart_health = 100;

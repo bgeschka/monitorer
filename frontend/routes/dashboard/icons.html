@@ -1,7 +1,5 @@
 <div class="row">
 	<div class="col-xs-12 col-sm-2 col-md-2" ng-repeat="job in jobs | orderBy:'-name' | filter:session.searchtext">
-		<a href="#/jobhistory/{{job.jobID}}" >
-			<jobview uib-tooltip="show history" ng-model="job" />
-		</a>
+			<jobview ng-model="job" />
 	</div>
 </div>
