@@ -26,7 +26,7 @@ module.exports.descr = "Test if more than max kernel errors occured";
 module.exports.bad = function (parsedresult, args) {
 	var count = parsedresult.split("\n").filter(function (line) {
 		return line.length > 2; //filter empty lines
-	});
+	}).length;
 	console.log("bad kernel messages:", count, parsedresult);
 	if(count > parseInt(args.max,10))
 		return true;
