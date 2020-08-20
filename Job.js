@@ -41,6 +41,8 @@ const Mail = require('./mail');
 const path = require('path');
 const userconfig = require('./userconfig');
 
+const MAXRETRIES = 5;
+
 require('./runtime');
 
 const E_BAD = "BAD";
@@ -191,7 +193,7 @@ class Job {
 		}
 	}
 
-	async runReal() {
+	async runReal(retries) {
 		this.loadTransport();
 		var cmd = this.compileCommand();
 		Log.silly("run:", cmd);
@@ -199,12 +201,18 @@ class Job {
 		try {
 			result = await this.$transport.exec(this.transportargs, cmd);
 		} catch (e) {
-			Log.error('failed on executing', cmd, e.toString());
+			retries  = retries || 0;
+			if(retries < MAXRETRIES)  {
+				Log.error('failed on executing', cmd, e.toString(), "retry:",retries);
+				return runReal(retries+1);
+			}
+
+			Log.error('MAX RETRIES exceeded, failed on executing', cmd, e.toString(), "retry:",retries);
 			result = await this.goneBad(e.toString());
 		}
 		var _result = result;
 
-		Log.silly("[" + cmd + "] result:", result.substring(0, 40));
+		Log.silly("[" + cmd + "] result: ["+ result.substring(0, 40)+"]");
 		if (!result) result = await this.goneBad(_result);
 
 		try {
