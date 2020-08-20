@@ -203,7 +203,7 @@ class Job {
 		} catch (e) {
 			retries  = retries || 0;
 			if(retries < MAXRETRIES)  {
-				Log.error('failed on executing', cmd, e.toString(), "retry:",retries);
+				Log.info('failed on executing', cmd, e.toString(), "retry:",retries);
 				return runReal(retries+1);
 			}
 
