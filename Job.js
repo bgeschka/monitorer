@@ -168,11 +168,11 @@ class Job {
 
 	async goneBad(result) {
 		this.$badcount++;
-		Log.error("service going bad:", this.$badcount);
+		Log.info("service going bad:", this.$badcount);
 		if (this.$badcount > this.badthreshold) {
 			if (!this.$bad) {
 				this.$bad = true;
-				Log.error("notify about bad state");
+				Log.info("notify about bad state");
 				await this.notifyBad(result);
 			} else {
 				Log.silly("bad already mailed");
@@ -214,7 +214,7 @@ class Job {
 
 			if (this.$plugin.bad) {
 				if (this.$plugin.bad(result, this.args)) {
-					Log.error("plugin returned bad status");
+					Log.info("plugin returned bad status");
 					result = await this.goneBad(_result);
 				}
 			}
