@@ -204,7 +204,7 @@ class Job {
 			retries  = retries || 0;
 			if(retries < MAXRETRIES)  {
 				Log.info('failed on executing', cmd, e.toString(), "retry:",retries);
-				return runReal(retries+1);
+				return this.runReal(retries+1);
 			}
 
 			Log.error('MAX RETRIES exceeded, failed on executing', cmd, e.toString(), "retry:",retries);
