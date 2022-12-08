@@ -11,7 +11,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cron-parser": "^2.6.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "nodemailer": "^4.6.8",
     "rimraf": "^2.6.2",
     "ssh2-promise": "0.0.9",
